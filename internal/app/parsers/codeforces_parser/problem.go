@@ -1,13 +1,31 @@
 package codeforces_parser
 
 import (
+	"bytes"
 	"corgi_parser/internal/app/ds"
 	"corgi_parser/internal/app/html_basics"
+	"io"
+	"net/http"
 
 	"golang.org/x/net/html"
 )
 
-func ParseProblem(node *html.Node) (ds.ProblemData, error) {
+func ParseProblem(problem_url string) (ds.ProblemData, error) {
+	resp, err := http.Get(problem_url)
+	if err != nil {
+		return ds.ProblemData{}, err
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return ds.ProblemData{}, err
+	}
+
+	node, err := html.Parse(bytes.NewReader(body))
+	if err != nil {
+		return ds.ProblemData{}, err
+	}
+
 	data := ds.ProblemData{}
 
 	problemStatementNode := html_basics.GetElementByAttribute(node, "class", "problem-statement")

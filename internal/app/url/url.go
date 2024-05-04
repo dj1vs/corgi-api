@@ -8,7 +8,12 @@ import (
 func GetProblemURL(problem_id ds.ProblemID) (string, error) {
 	switch problem_id.Source {
 	case ds.Codeforces:
+		if problem_id.Competition == "" {
+			return "", errors.New("no competition specified for codeforces problem")
+		}
 		return "https://codeforces.com/problemset/problem/" + problem_id.Competition + "/" + problem_id.Title, nil
+	case ds.Codewars:
+		return "http://codewars.com/api/v1/code-challenges/" + problem_id.Title, nil
 	default:
 		return "", errors.New("invalid source")
 	}

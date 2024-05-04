@@ -16,9 +16,6 @@ func ProblemHandler(c buffalo.Context) error {
 	if title == "" {
 		return c.Render(http.StatusBadRequest, r.JSON(map[string]string{"message": "You should provide problem title"}))
 	}
-	if competition == "" {
-		return c.Render(http.StatusBadRequest, r.JSON(map[string]string{"message": "You should provide problem competition"}))
-	}
 
 	sourceParsed, ok := ds.ParseSourceString(source)
 	if !ok {

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"corgi_parser/internal/app/ds"
 	"corgi_parser/internal/app/parsers/codeforces_parser"
+	"corgi_parser/internal/app/parsers/codewars_parser"
 	"corgi_parser/internal/app/url"
 	"io"
 	"net/http"
@@ -17,24 +18,11 @@ func ParseProblem(problem_id ds.ProblemID) (ds.ProblemData, error) {
 		return ds.ProblemData{}, err
 	}
 
-	resp, err := http.Get(problem_url)
-	if err != nil {
-		return ds.ProblemData{}, err
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return ds.ProblemData{}, err
-	}
-
-	doc, err := html.Parse(bytes.NewReader(body))
-	if err != nil {
-		return ds.ProblemData{}, err
-	}
-
 	switch problem_id.Source {
 	case ds.Codeforces:
-		return codeforces_parser.ParseProblem(doc)
+		return codeforces_parser.ParseProblem(problem_url)
+	case ds.Codewars:
+		return codewars_parser.ParseProblem(problem_url)
 	}
 
 	return ds.ProblemData{}, nil

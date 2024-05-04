@@ -7,11 +7,13 @@ type Source int
 const (
 	NoSource Source = iota
 	Codeforces
+	Codewars
 )
 
 var (
 	sourcesMap = map[string]Source{
 		"codeforces": Codeforces,
+		"codewars":   Codewars,
 	}
 )
 
