@@ -136,6 +136,6 @@ func parseNote(data *ds.ProblemData, node *html.Node) {
 			continue
 		}
 
-		data.Note += html_basics.CollectText(c, 1) + "\n"
+		data.Note += html_basics.CollectText(c, 3) + "\n"
 	}
 }

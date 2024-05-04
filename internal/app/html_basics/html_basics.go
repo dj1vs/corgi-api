@@ -1,6 +1,8 @@
 package html_basics
 
-import "golang.org/x/net/html"
+import (
+	"golang.org/x/net/html"
+)
 
 func GetAttributes(n *html.Node, key string) ([]string, bool) {
 	isFound := false
@@ -33,6 +35,9 @@ func CollectText(n *html.Node, children int) string {
 	text := ""
 	if n.Type == html.TextNode {
 		text += n.Data
+		if n.Parent != nil && n.Parent.Data == "li" {
+			text += "\n"
+		}
 	} else if n.Type == html.ElementNode && n.Data == "br" {
 		text += "\n"
 	}
