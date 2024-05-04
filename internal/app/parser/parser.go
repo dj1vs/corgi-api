@@ -33,7 +33,7 @@ func ParseProblem(problem_id ds.ProblemID) (ds.ProblemData, error) {
 	}
 
 	switch problem_id.Source {
-	case "codeforces":
+	case ds.Codeforces:
 		return codeforces_parser.ParseProblem(doc)
 	}
 
@@ -64,7 +64,7 @@ func ParseCompetition(comp_id ds.CompetitionID) (ds.CompetitionData, error) {
 	data := ds.CompetitionData{}
 
 	switch comp_id.Source {
-	case "codeforces":
+	case ds.Codeforces:
 		data, err = codeforces_parser.ParseCompetition(doc)
 	}
 

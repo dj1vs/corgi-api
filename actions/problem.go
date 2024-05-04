@@ -20,8 +20,13 @@ func ProblemHandler(c buffalo.Context) error {
 		return c.Render(http.StatusBadRequest, r.JSON(map[string]string{"message": "You should provide problem competition"}))
 	}
 
+	sourceParsed, ok := ds.ParseSourceString(source)
+	if !ok {
+		return c.Render(http.StatusBadRequest, r.JSON(map[string]string{"message": "Source  " + source + " is not supported."}))
+	}
+
 	problemData, err := parser.ParseProblem(ds.ProblemID{
-		Source:      source,
+		Source:      sourceParsed,
 		Title:       title,
 		Competition: competition,
 	})

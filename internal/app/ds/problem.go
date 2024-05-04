@@ -1,7 +1,7 @@
 package ds
 
 type ProblemID struct {
-	Source      string
+	Source      Source
 	Title       string
 	Competition string
 }
@@ -22,14 +22,4 @@ type ProblemData struct {
 type ProblemExample struct {
 	Input  string
 	Output string
-}
-
-type CompetitionID struct {
-	Source string
-	Title  string
-}
-
-type CompetitionData struct {
-	Title    string
-	Problems []string
 }
