@@ -3,11 +3,7 @@ package actions
 import (
 	"sync"
 
-	"corgi_parser/locales"
-	"corgi_parser/models"
-
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/buffalo-pop/v3/pop/popmw"
 	"github.com/gobuffalo/envy"
 	"github.com/gobuffalo/middleware/contenttype"
 	"github.com/gobuffalo/middleware/forcessl"
@@ -64,23 +60,14 @@ func App() *buffalo.App {
 		// Wraps each request in a transaction.
 		//   c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
-		app.Use(popmw.Transaction(models.DB))
+		// app.Use(popmw.Transaction(models.DB))
+
 		app.GET("/", HomeHandler)
+		app.GET("/problem", ProblemHandler)
+		app.GET("/competition", CompetitionHandler)
 	})
 
 	return app
-}
-
-// translations will load locale files, set up the translator `actions.T`,
-// and will return a middleware to use to load the correct locale for each
-// request.
-// for more information: https://gobuffalo.io/en/docs/localization
-func translations() buffalo.MiddlewareFunc {
-	var err error
-	if T, err = i18n.New(locales.FS(), "en-US"); err != nil {
-		app.Stop(err)
-	}
-	return T.Middleware()
 }
 
 // forceSSL will return a middleware that will redirect an incoming request
