@@ -5,6 +5,7 @@ import (
 	"corgi_parser/internal/app/ds"
 	"corgi_parser/internal/app/parsers/codeforces_parser"
 	"corgi_parser/internal/app/parsers/codewars_parser"
+	"corgi_parser/internal/app/parsers/projecteueler_parser"
 	"corgi_parser/internal/app/url"
 	"io"
 	"net/http"
@@ -23,6 +24,8 @@ func ParseProblem(problem_id ds.ProblemID) (ds.ProblemData, error) {
 		return codeforces_parser.ParseProblem(problem_url)
 	case ds.Codewars:
 		return codewars_parser.ParseProblem(problem_url)
+	case ds.ProjectEuler:
+		return projecteueler_parser.ParseProblem(problem_url)
 	}
 
 	return ds.ProblemData{}, nil

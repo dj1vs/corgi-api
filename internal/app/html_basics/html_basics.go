@@ -57,7 +57,6 @@ func checkAttr(n *html.Node, attrName string, attrVal string) bool {
 	if n.Type == html.ElementNode {
 
 		s, ok := GetAttribute(n, attrName)
-
 		if ok && s == attrVal {
 			return true
 		}

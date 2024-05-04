@@ -14,6 +14,8 @@ func GetProblemURL(problem_id ds.ProblemID) (string, error) {
 		return "https://codeforces.com/problemset/problem/" + problem_id.Competition + "/" + problem_id.Title, nil
 	case ds.Codewars:
 		return "http://codewars.com/api/v1/code-challenges/" + problem_id.Title, nil
+	case ds.ProjectEuler:
+		return "http://projecteuler.net/problem=" + problem_id.Title, nil
 	default:
 		return "", errors.New("invalid source")
 	}

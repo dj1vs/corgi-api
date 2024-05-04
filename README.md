@@ -1,39 +1,38 @@
-# Welcome to Buffalo
+# corgi_parser
+Simple Golang HTTP-server that returns online programming problems in a form of unified JSONs.
 
-Thank you for choosing Buffalo for your web development needs.
-
-## Database Setup
-
-It looks like you chose to set up your application using a database! Fantastic!
-
-The first thing you need to do is open up the "database.yml" file and edit it to use the correct usernames, passwords, hosts, etc... that are appropriate for your environment.
-
-You will also need to make sure that **you** start/install the database of your choice. Buffalo **won't** install and start it for you.
-
-### Create Your Databases
-
-Ok, so you've edited the "database.yml" file and started your database, now Buffalo can create the databases in that file for you:
-
-```console
-buffalo pop create -a
+Take a look at a simple example:
+```url
+http://127.0.0.1:3000/problem?source=codeforces&problem_title=A&competition=1
 ```
 
-## Starting the Application
-
-Buffalo ships with a command that will watch your application and automatically rebuild the Go binary and any assets for you. To do that run the "buffalo dev" command:
-
-```console
-buffalo dev
+```json
+{
+	"Title": "A. Theatre Square",
+	"TimeLimit": "1 second",
+	"MemoryLimit": "256 megabytes",
+	"InputFile": "standard input",
+	"OutputFile": "standard output",
+	"Description": "Theatre Square in the capital city of Berland has a rectangular shape with the size n × m meters. On the occasion of the city's anniversary, a decision was taken to pave the Square with square granite flagstones. Each flagstone is of the size a × a.\nWhat is the least number of flagstones needed to pave the Square? It's allowed to cover the surface larger than the Theatre Square, but the Square has to be covered. It's not allowed to break the flagstones. The sides of flagstones should be parallel to the sides of the Square.\n",
+	"InputDescription": "The input contains three positive integer numbers in the first line: n,  m and a (1 ≤  n, m, a ≤ 109).\n",
+	"OutputDescription": "Write the needed number of flagstones.\n",
+	"Examples": [
+		{
+			"Input": "6 6 4\n",
+			"Output": "4\n"
+		}
+	],
+	"Note": ""
+}
 ```
 
-If you point your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000) you should see a "Welcome to Buffalo!" page.
+Sometimes it uses official API, sometimes it has to scrap information from problems html page.
 
-**Congratulations!** You now have your Buffalo application up and running.
+## Handles:
+- `/problem`
+- `/competition` - returns competitions title and a list of competitions problems
 
-## What Next?
-
-We recommend you heading over to [http://gobuffalo.io](http://gobuffalo.io) and reviewing all of the great documentation there.
-
-Good luck!
-
-[Powered by Buffalo](http://gobuffalo.io)
+## Supported platforms:
+- Codeforces
+- Codewars (only title and description)
+- Project Euler (only title and description)

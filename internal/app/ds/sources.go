@@ -8,12 +8,14 @@ const (
 	NoSource Source = iota
 	Codeforces
 	Codewars
+	ProjectEuler
 )
 
 var (
 	sourcesMap = map[string]Source{
-		"codeforces": Codeforces,
-		"codewars":   Codewars,
+		"codeforces":   Codeforces,
+		"codewars":     Codewars,
+		"projecteuler": ProjectEuler,
 	}
 )
 
