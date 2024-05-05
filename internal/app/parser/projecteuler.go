@@ -1,4 +1,4 @@
-package projecteueler_parser
+package parser
 
 import (
 	"bytes"
@@ -10,11 +10,16 @@ import (
 	"golang.org/x/net/html"
 )
 
-func ParseProblem(problem_url string) (ds.ProblemData, error) {
+func ParseProjecteulerProblem(problemID *ds.ProblemID) (ds.ProblemData, error) {
 	data := ds.ProblemData{}
 
+	url, err := getProjecteulerURL(problemID)
+	if err != nil {
+		return data, err
+	}
+
 	httpClient := &http.Client{}
-	req, _ := http.NewRequest("GET", problem_url, nil)
+	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("User-Agent", "corgi-parser")
 	resp, err := httpClient.Do(req)
 	if err != nil {
@@ -49,4 +54,8 @@ func ParseProblem(problem_url string) (ds.ProblemData, error) {
 	}
 
 	return data, nil
+}
+
+func getProjecteulerURL(problemID *ds.ProblemID) (string, error) {
+	return "http://projecteuler.net/problem=" + problemID.Title, nil
 }

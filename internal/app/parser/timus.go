@@ -1,4 +1,4 @@
-package timus_parser
+package parser
 
 import (
 	"bytes"
@@ -11,22 +11,27 @@ import (
 	"golang.org/x/net/html"
 )
 
-func ParseProblem(problem_url string) (ds.ProblemData, error) {
+func ParseTimusProblem(problemID *ds.ProblemID) (ds.ProblemData, error) {
 	problemData := ds.ProblemData{}
 
-	resp, err := http.Get(problem_url)
+	url, err := getTimusURL(problemID)
 	if err != nil {
-		return ds.ProblemData{}, err
+		return problemData, err
+	}
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return problemData, err
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return ds.ProblemData{}, err
+		return problemData, err
 	}
 
 	node, err := html.Parse(bytes.NewReader(body))
 	if err != nil {
-		return ds.ProblemData{}, err
+		return problemData, err
 	}
 
 	contentNode := html_basics.GetElementByAttribute(node, "class", "problem_content")
@@ -54,6 +59,10 @@ func ParseProblem(problem_url string) (ds.ProblemData, error) {
 	}
 
 	return problemData, nil
+}
+
+func getTimusURL(problemID *ds.ProblemID) (string, error) {
+	return "http://acm.timus.ru/problem.aspx?num=" + problemID.Title, nil
 }
 
 func parseProblemText(node *html.Node, problemData *ds.ProblemData) error {

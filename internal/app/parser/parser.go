@@ -1,68 +1,39 @@
 package parser
 
 import (
-	"bytes"
 	"corgi_parser/internal/app/ds"
-	"corgi_parser/internal/app/parsers/codeforces_parser"
-	"corgi_parser/internal/app/parsers/codewars_parser"
-	"corgi_parser/internal/app/parsers/projecteueler_parser"
-	"corgi_parser/internal/app/parsers/timus_parser"
-	"corgi_parser/internal/app/url"
-	"io"
-	"net/http"
-
-	"golang.org/x/net/html"
+	"errors"
 )
 
 func ParseProblem(problem_id ds.ProblemID) (ds.ProblemData, error) {
-	problem_url, err := url.GetProblemURL(problem_id)
-	if err != nil {
-		return ds.ProblemData{}, err
+	for source, problemFunc := range problemFunctions {
+		if source == problem_id.Source {
+			return problemFunc(&problem_id)
+		}
 	}
 
-	switch problem_id.Source {
-	case ds.Codeforces:
-		return codeforces_parser.ParseProblem(problem_url)
-	case ds.Codewars:
-		return codewars_parser.ParseProblem(problem_url)
-	case ds.ProjectEuler:
-		return projecteueler_parser.ParseProblem(problem_url)
-	case ds.Timus:
-		return timus_parser.ParseProblem(problem_url)
-	}
-
-	return ds.ProblemData{}, nil
+	return ds.ProblemData{}, errors.New("no such source for problem search")
 }
 
 func ParseCompetition(comp_id ds.CompetitionID) (ds.CompetitionData, error) {
-	comp_url, err := url.GetCompetitionURL(comp_id)
-	if err != nil {
-		return ds.CompetitionData{}, err
+	for source, compFunc := range compFunctions {
+		if source == comp_id.Source {
+			return compFunc(&comp_id)
+		}
 	}
 
-	resp, err := http.Get(comp_url)
-	if err != nil {
-		return ds.CompetitionData{}, err
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return ds.CompetitionData{}, err
-	}
-
-	doc, err := html.Parse(bytes.NewReader(body))
-	if err != nil {
-		return ds.CompetitionData{}, err
-	}
-
-	data := ds.CompetitionData{}
-
-	switch comp_id.Source {
-	case ds.Codeforces:
-		data, err = codeforces_parser.ParseCompetition(doc)
-	}
-
-	data.Title = comp_id.Title
-
-	return data, err
+	return ds.CompetitionData{}, errors.New("no such source for problem search")
 }
+
+var (
+	problemFunctions = map[ds.Source](func(problemID *ds.ProblemID) (ds.ProblemData, error)){
+		ds.Codeforces:   ParseCodeforcesProblem,
+		ds.Codewars:     ParseCodewarsProblem,
+		ds.ProjectEuler: ParseProjecteulerProblem,
+		ds.Timus:        ParseTimusProblem,
+	}
+
+	compFunctions = map[ds.Source](func(compID *ds.CompetitionID) (ds.CompetitionData, error)){
+		ds.Codeforces: ParseCodeforcesCompetition,
+	}
+)
