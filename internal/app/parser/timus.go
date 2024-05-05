@@ -2,8 +2,8 @@ package parser
 
 import (
 	"bytes"
-	"corgi_parser/internal/app/ds"
-	"corgi_parser/internal/app/html_basics"
+	"corgi-api/internal/app/ds"
+	"corgi-api/internal/app/html_basics"
 	"io"
 	"net/http"
 	"strings"

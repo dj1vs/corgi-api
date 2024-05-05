@@ -1,8 +1,8 @@
-# corgi-parser ![](https://github.com/dj1vs/corgi-parser/actions/workflows/go.yml/badge.svg)  
+# corgi-api ![](https://github.com/dj1vs/corgi-parser/actions/workflows/go.yml/badge.svg)  
 
 Simple Golang HTTP-server that returns online programming problems in a form of unified JSONs.
 
-Corgi-parser mostly uses its own web scrappers (but, if possible, official APIs)
+Corgi-api mostly uses its own web scrappers (but, if possible, official APIs)
 
 Take a look at a simple example:
 ```url

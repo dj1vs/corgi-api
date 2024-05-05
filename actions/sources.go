@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"corgi_parser/internal/app/ds"
+	"corgi-api/internal/app/ds"
 	"net/http"
 
 	"github.com/gobuffalo/buffalo"

@@ -1,7 +1,7 @@
 package grifts
 
 import (
-	"corgi_parser/actions"
+	"corgi-api/actions"
 
 	"github.com/gobuffalo/buffalo"
 )

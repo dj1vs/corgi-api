@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"corgi_parser/actions"
+	"corgi-api/actions"
 )
 
 // main is the starting point for your Buffalo application.

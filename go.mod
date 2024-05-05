@@ -1,4 +1,4 @@
-module corgi_parser
+module corgi-api
 
 go 1.22.2
 

@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"corgi_parser/internal/app/ds"
+	"corgi-api/internal/app/ds"
 	"encoding/json"
 	"io"
 	"net/http"
