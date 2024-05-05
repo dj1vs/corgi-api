@@ -46,7 +46,7 @@ func ParseTimusProblem(problemID *ds.ProblemID) (ds.ProblemData, error) {
 
 		if ok && nodeClass == "problem_limits" {
 			problemLimits := strings.Split(html_basics.CollectText(contentChild, 1), "\n")
-			problemData.TimeLimit = problemLimits[0]
+			// problemData.TimeLimit = problemLimits[0]
 			problemData.MemoryLimit = problemLimits[1]
 			continue
 		}

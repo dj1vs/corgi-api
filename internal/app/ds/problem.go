@@ -1,5 +1,9 @@
 package ds
 
+import (
+	"time"
+)
+
 type ProblemID struct {
 	Source      Source
 	Title       string
@@ -8,8 +12,9 @@ type ProblemID struct {
 
 type ProblemData struct {
 	Title             string
-	TimeLimit         string //TODO: make it time.Time
+	TimeLimit         time.Time
 	MemoryLimit       string
+	SourceSizeLimit   string
 	InputFile         string
 	OutputFile        string
 	Description       string
@@ -20,8 +25,10 @@ type ProblemData struct {
 	Author            string
 	Tags              []string
 	Difficulty        string
-	TotalAttempts     string
-	TotalCompleted    string
+	TotalAttempts     int
+	TotalCompleted    int
+	DateCreated       time.Time
+	Languages         []string
 }
 
 type ProblemExample struct {

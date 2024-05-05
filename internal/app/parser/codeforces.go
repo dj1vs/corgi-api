@@ -181,7 +181,7 @@ func parseHeader(data *ds.ProblemData, node *html.Node) {
 		case "title":
 			data.Title = html_basics.CollectText(c, 1)
 		case "time-limit":
-			data.TimeLimit = html_basics.CollectText(c, 1)
+			// data.TimeLimit = html_basics.CollectText(c, 1)
 		case "memory-limit":
 			data.MemoryLimit = html_basics.CollectText(c, 1)
 		case "input-file":
