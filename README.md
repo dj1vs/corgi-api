@@ -34,5 +34,6 @@ Sometimes it uses official API, sometimes it has to scrap information from probl
 
 ## Supported platforms:
 - Codeforces
-- Codewars (only title and description)
-- Project Euler (only title and description)
+- Codewars 
+- Project Euler
+- Timus

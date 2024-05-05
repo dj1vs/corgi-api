@@ -9,6 +9,7 @@ const (
 	Codeforces
 	Codewars
 	ProjectEuler
+	Timus
 )
 
 var (
@@ -16,6 +17,7 @@ var (
 		"codeforces":   Codeforces,
 		"codewars":     Codewars,
 		"projecteuler": ProjectEuler,
+		"timus":        Timus,
 	}
 )
 
