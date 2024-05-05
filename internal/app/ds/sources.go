@@ -13,7 +13,7 @@ const (
 )
 
 var (
-	sourcesMap = map[string]Source{
+	SourcesMap = map[string]Source{
 		"codeforces":   Codeforces,
 		"codewars":     Codewars,
 		"projecteuler": ProjectEuler,
@@ -22,6 +22,6 @@ var (
 )
 
 func ParseSourceString(str string) (Source, bool) {
-	c, ok := sourcesMap[strings.ToLower(str)]
+	c, ok := SourcesMap[strings.ToLower(str)]
 	return c, ok
 }
