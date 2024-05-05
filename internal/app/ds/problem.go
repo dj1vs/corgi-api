@@ -17,6 +17,11 @@ type ProblemData struct {
 	OutputDescription string
 	Examples          []ProblemExample // make [] ProblemExample
 	Note              string
+	Author            string
+	Tags              []string
+	Difficulty        string
+	TotalAttempts     string
+	TotalCompleted    string
 }
 
 type ProblemExample struct {

@@ -7,6 +7,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"strings"
 
 	"golang.org/x/net/html"
 )
@@ -55,6 +56,45 @@ func ParseCodeforcesProblem(problemID *ds.ProblemID) (ds.ProblemData, error) {
 		}
 	}
 
+	sidebarNode := html_basics.GetElementByAttribute(node, "id", "sidebar")
+
+	for sidebarChild := sidebarNode.FirstChild; sidebarChild != nil; sidebarChild = sidebarChild.NextSibling {
+		nodeClass, ok := html_basics.GetAttribute(sidebarChild, "class")
+		if !ok {
+			continue
+		}
+
+		if nodeClass != "roundbox sidebox borderTopRound " {
+			continue
+		}
+
+		if !strings.Contains(sidebarChild.FirstChild.NextSibling.FirstChild.Data, "Problem tags") {
+			continue
+		}
+
+		targetNode := sidebarChild.FirstChild.NextSibling.NextSibling.NextSibling
+
+		for tagNode := targetNode.FirstChild; tagNode != targetNode.LastChild.PrevSibling; tagNode = tagNode.NextSibling {
+			if tagNode.Type == html.TextNode {
+				continue
+			}
+			rawTag := html_basics.CollectText(tagNode, 2)
+			rawTag = strings.ReplaceAll(rawTag, "\n", "")
+			rawTag = strings.TrimSpace(rawTag)
+
+			if len(rawTag) < 1 {
+				continue
+			}
+
+			if rawTag[0] == '*' && len(rawTag) > 2 {
+				data.Difficulty = rawTag[1:]
+			}
+
+			data.Tags = append(data.Tags, rawTag)
+		}
+
+	}
+
 	return data, nil
 }
 
@@ -95,12 +135,12 @@ func ParseCodeforcesCompetition(compID *ds.CompetitionID) (ds.CompetitionData, e
 			continue
 		}
 		for rowCell := tableRow.FirstChild; rowCell != nil; rowCell = rowCell.NextSibling {
-			nodeClasses, ok := html_basics.GetAttributes(rowCell, "class")
+			nodeClasses, ok := html_basics.GetAttribute(rowCell, "class")
 			if !ok {
 				continue
 			}
 
-			for _, nodeClass := range nodeClasses {
+			for _, nodeClass := range strings.Split(nodeClasses, " ") {
 				if nodeClass == "id" {
 					rawProblemTitle := html_basics.CollectText(rowCell.FirstChild.NextSibling, 1)
 					problemTitle := ""

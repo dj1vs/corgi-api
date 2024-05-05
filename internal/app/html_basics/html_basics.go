@@ -4,25 +4,12 @@ import (
 	"golang.org/x/net/html"
 )
 
-func GetAttributes(n *html.Node, key string) ([]string, bool) {
-	isFound := false
-	attrs := []string{}
-
-	for _, attr := range n.Attr {
-		if attr.Key == key {
-			isFound = true
-			attrs = append(attrs, attr.Val)
-		}
-	}
-
-	return attrs, isFound
-}
-
 func GetAttribute(n *html.Node, key string) (string, bool) {
 
 	for _, attr := range n.Attr {
 
 		if attr.Key == key {
+			// log.Println("->", attr.Val)
 			return attr.Val, true
 		}
 	}
