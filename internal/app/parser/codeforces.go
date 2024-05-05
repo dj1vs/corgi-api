@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 
 	"golang.org/x/net/html"
 )
@@ -181,6 +182,21 @@ func parseHeader(data *ds.ProblemData, node *html.Node) {
 		case "title":
 			data.Title = html_basics.CollectText(c, 1)
 		case "time-limit":
+			rawTimeLimit := strings.Split(html_basics.CollectText(c, 1), " ")
+			if len(rawTimeLimit) == 2 {
+				timeUnitStr := ""
+				switch rawTimeLimit[1] {
+				case "seconds":
+					timeUnitStr = "s"
+				case "milliseconds":
+					timeUnitStr = "us"
+				}
+
+				timeLimit, err := time.ParseDuration(rawTimeLimit[0] + timeUnitStr)
+				if err == nil {
+					data.TimeLimitMs = int(timeLimit.Milliseconds())
+				}
+			}
 			// data.TimeLimit = html_basics.CollectText(c, 1)
 		case "memory-limit":
 			data.MemoryLimit = html_basics.CollectText(c, 1)
@@ -257,6 +273,9 @@ func parseSampleTests(data *ds.ProblemData, node *html.Node) {
 				}
 				example.Output += html_basics.CollectText(outputChild, 1)
 			}
+			example.Input = example.Input[:len(example.Input)-1]
+			example.Output = example.Output[:len(example.Output)-1]
+
 			data.Examples = append(data.Examples, example)
 			example = ds.ProblemExample{}
 		}

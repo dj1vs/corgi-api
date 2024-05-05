@@ -12,7 +12,7 @@ type ProblemID struct {
 
 type ProblemData struct {
 	Title             string
-	TimeLimit         time.Time
+	TimeLimitMs       int
 	MemoryLimit       string
 	SourceSizeLimit   string
 	InputFile         string
