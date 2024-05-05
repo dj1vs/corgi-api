@@ -1,5 +1,5 @@
-name = "corgi-parser"
-bin = "bin/corgi-parser"
+name = "corgi-api"
+bin = "bin/corgi-api"
 vcs = "git"
 with_pop = true
 with_sqlite = false

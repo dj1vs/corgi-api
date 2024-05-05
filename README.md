@@ -1,16 +1,15 @@
 # corgi-api ![](https://github.com/dj1vs/corgi-parser/actions/workflows/go.yml/badge.svg)  
 
-Simple Golang HTTP-server that returns online programming problems in a form of unified JSONs.
+Simple Golang/Buffalo HTTP-server that returns online programming problems from different platforms in a form of unified JSON.
 
-Corgi-api mostly uses its own web scrappers (but, if possible, official APIs)
+**corgi-api** mostly uses its own web scrappers (due to the lack of the official APIs).
 
-Take a look at a simple example:
+Simple example of a parsed problem:
 ```url
 http://127.0.0.1:3000/problem?source=codeforces&problem_title=A&competition=154
 ```
 
 ```json
-{
 {
 	"Title": "A. Hometask",
 	"TimeLimit": "2 seconds",
@@ -40,8 +39,8 @@ http://127.0.0.1:3000/problem?source=codeforces&problem_title=A&competition=154
 	"TotalAttempts": "",
 	"TotalCompleted": ""
 }
-}
 ```
+
 ## Handles:
 - `/sources` - Returns all available problem sources
 - `/problem` - Returns parsed problem
