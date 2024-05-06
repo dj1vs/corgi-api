@@ -102,6 +102,11 @@ func ParseTimusProblem(problemID *ds.ProblemID) (ds.ProblemData, error) {
 	}
 	problemData.TotalCompleted = totalCompleted
 
+	err = getTimusLanguages(&problemData)
+	if err != nil {
+		return problemData, nil
+	}
+
 	problemData.SourceSizeLimit = "64 KB"
 
 	return problemData, nil
@@ -113,7 +118,6 @@ func getTimusURL(problemID *ds.ProblemID) (string, error) {
 
 func parseProblemText(node *html.Node, problemData *ds.ProblemData) error {
 	section := description
-
 	for c := node.FirstChild; c != nil; c = c.NextSibling {
 		if c.Data == "h3" {
 			sectionContent := c.FirstChild.Data
@@ -139,11 +143,11 @@ func parseProblemText(node *html.Node, problemData *ds.ProblemData) error {
 		if nodeClass == "problem_par" {
 			switch section {
 			case description:
-				problemData.Description = html_basics.CollectText(c, 2)
+				problemData.Description = html_basics.CollectText(c, 3)
 			case input:
-				problemData.InputDescription = html_basics.CollectText(c, 2)
+				problemData.InputDescription = html_basics.CollectText(c, 3)
 			case output:
-				problemData.OutputDescription = html_basics.CollectText(c, 2)
+				problemData.OutputDescription = html_basics.CollectText(c, 3)
 			case notes:
 				problemData.Note = html_basics.CollectText(c, 2)
 			}
@@ -179,6 +183,32 @@ func parseSample(node *html.Node, problemData *ds.ProblemData) error {
 		example.Output = example.Output[:len(example.Output)-1]
 
 		problemData.Examples = append(problemData.Examples, example)
+	}
+
+	return nil
+}
+
+func getTimusLanguages(problemData *ds.ProblemData) error {
+	url := "https://acm.timus.ru/submit.aspx"
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	node, err := html.Parse(bytes.NewReader(body))
+	if err != nil {
+		return err
+	}
+
+	languagesNode := html_basics.GetElementByAttribute(node, "name", "Language")
+	for languageNode := languagesNode.FirstChild; languageNode != nil; languageNode = languageNode.NextSibling {
+		problemData.Languages = append(problemData.Languages, html_basics.CollectText(languageNode, 1))
 	}
 
 	return nil

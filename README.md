@@ -6,38 +6,56 @@ Simple Golang/Buffalo HTTP-server that returns online programming problems from 
 
 Simple example of a parsed problem:
 ```url
-http://127.0.0.1:3000/problem?source=codeforces&problem_title=A&competition=154
+http://127.0.0.1:3000/problem?source=timus&problem_title=2035
 ```
 
 ```json
 {
-	"Title": "A. Hometask",
-	"TimeLimit": "2 seconds",
-	"MemoryLimit": "256 megabytes",
-	"InputFile": "standard input",
-	"OutputFile": "standard output",
-	"Description": "Sergey attends lessons of the N-ish language. Each lesson he receives a hometask. This time the task is to translate some sentence to the N-ish language. Sentences of the N-ish language can be represented as strings consisting of lowercase Latin letters without spaces or punctuation marks.\nSergey totally forgot about the task until half an hour before the next lesson and hastily scribbled something down. But then he recollected that in the last lesson he learned the grammar of N-ish. The spelling rules state that N-ish contains some \"forbidden\" pairs of letters: such letters can never occur in a sentence next to each other. Also, the order of the letters doesn't matter (for example, if the pair of letters \"ab\" is forbidden, then any occurrences of substrings \"ab\" and \"ba\" are also forbidden). Also, each pair has different letters and each letter occurs in no more than one forbidden pair.\nNow Sergey wants to correct his sentence so that it doesn't contain any \"forbidden\" pairs of letters that stand next to each other. However, he is running out of time, so he decided to simply cross out some letters from the sentence. What smallest number of letters will he have to cross out? When a letter is crossed out, it is \"removed\" so that the letters to its left and right (if they existed), become neighboring. For example, if we cross out the first letter from the string \"aba\", we get the string \"ba\", and if we cross out the second letter, we get \"aa\".\n",
-	"InputDescription": "The first line contains a non-empty string s, consisting of lowercase Latin letters — that's the initial sentence in N-ish, written by Sergey. The length of string s doesn't exceed 105.\nThe next line contains integer k (0 ≤ k ≤ 13) — the number of forbidden pairs of letters.\nNext k lines contain descriptions of forbidden pairs of letters. Each line contains exactly two different lowercase Latin letters without separators that represent the forbidden pairs. It is guaranteed that each letter is included in no more than one pair.\n",
-	"OutputDescription": "Print the single number — the smallest number of letters that need to be removed to get a string without any forbidden pairs of neighboring letters. Please note that the answer always exists as it is always possible to remove all letters.\n",
+	"Title": "2035. Another Dress Rehearsal",
+	"TimeLimitMs": 500,
+	"MemoryLimit": "Memory limit: 64 MB",
+	"SourceSizeLimit": "64 KB",
+	"InputFile": "",
+	"OutputFile": "",
+	"Description": "Now Kirill has to recover the lost tests as soon as possible. He has answers to the tests, and he remembers that the summands A and B were integers such that 0 ≤ A ≤ X and 0 ≤ B ≤ Y. Help Kirill recover the tests!",
+	"InputDescription": "The only input line contains integers X, Y, and C separated with a space (0 ≤ X, Y, C ≤ 109).",
+	"OutputDescription": "If Kirill is wrong and there are no such integers, output “Impossible” (without quotation marks). Otherwise, output the integers A and B separated with a space. If there are several pairs satisfying the conditions, output any of them.",
 	"Examples": [
 		{
-			"Input": "ababa\n1\nab\n",
-			"Output": "2\n"
+			"Input": "2 7 5",
+			"Output": "2 3"
 		},
 		{
-			"Input": "codeforces\n2\ndo\ncs\n",
-			"Output": "1\n"
+			"Input": "9 15 100",
+			"Output": "Impossible"
 		}
 	],
-	"Note": "In the first sample you should remove two letters b.\nIn the second sample you should remove the second or the third letter. The second restriction doesn't influence the solution.\n",
-	"Author": "",
-	"Tags": [
-		"greedy",
-		"*1600"
-	],
-	"Difficulty": "1600",
-	"TotalAttempts": "",
-	"TotalCompleted": ""
+	"Note": "",
+	"Author": "Kirill Borozdin",
+	"Tags": null,
+	"Difficulty": "72",
+	"TotalAttempts": 14976,
+	"TotalCompleted": 4315,
+	"DateCreated": "0001-01-01T00:00:00Z",
+	"Languages": [
+		"FreePascal 2.6",
+		"Visual C 2022",
+		"Visual C++ 2022",
+		"Visual C 2022 x64",
+		"Visual C++ 2022 x64",
+		"GCC 13.2 x64",
+		"G++ 13.2 x64",
+		"Clang++ 17 x64",
+		"Java 1.8",
+		"C# .NET 8",
+		"Python 3.12 x64",
+		"PyPy 3.10 x64",
+		"Go 1.14 x64",
+		"Haskell 7.6",
+		"Scala 2.11",
+		"Rust 1.75 x64",
+		"Kotlin 1.9.22"
+	]
 }
 ```
 
