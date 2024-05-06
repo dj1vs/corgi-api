@@ -6,6 +6,7 @@ import (
 	"corgi-api/internal/app/html_basics"
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -46,7 +47,22 @@ func ParseTimusProblem(problemID *ds.ProblemID) (ds.ProblemData, error) {
 
 		if ok && nodeClass == "problem_limits" {
 			problemLimits := strings.Split(html_basics.CollectText(contentChild, 1), "\n")
-			// problemData.TimeLimit = problemLimits[0]
+			//problemData.TimeLimit = problemLimits[0]
+
+			if strings.Contains(problemLimits[0], "second") {
+				timeLimitStr := strings.Replace(problemLimits[0], " second", "", 1)[len("Time limit: "):]
+				timeLimitFloat, err := strconv.ParseFloat(timeLimitStr, 32)
+				if err == nil {
+					problemData.TimeLimitMs = int(timeLimitFloat * 1000)
+				}
+			} else if strings.Contains(problemLimits[0], "millisecond") {
+				timeLimitStr := strings.Replace(problemLimits[0], " millisecond", "", 1)[len("Time limit: "):]
+				timeLimitFloat, err := strconv.ParseFloat(timeLimitStr, 32)
+				if err == nil {
+					problemData.TimeLimitMs = int(timeLimitFloat)
+				}
+			}
+
 			problemData.MemoryLimit = problemLimits[1]
 			continue
 		}
@@ -57,6 +73,36 @@ func ParseTimusProblem(problemID *ds.ProblemID) (ds.ProblemData, error) {
 		}
 
 	}
+
+	tagsNode := contentNode.NextSibling
+	for tagChild := tagsNode.FirstChild; tagChild != nil; tagChild = tagChild.NextSibling {
+		if tagChild.Data != "a" {
+			continue
+		}
+
+		problemData.Tags = append(problemData.Tags, html_basics.CollectText(tagChild, 1))
+	}
+
+	linksNode := tagsNode.NextSibling
+	problemData.Difficulty = html_basics.CollectText(linksNode.FirstChild, 1)[len("Difficulty: "):]
+
+	totalAttemptsNode := linksNode.FirstChild.NextSibling.NextSibling.
+		NextSibling.NextSibling.NextSibling.NextSibling.NextSibling.NextSibling
+	rawTotalAttempts := html_basics.CollectText(totalAttemptsNode, 1)
+	totalAttempts, err := strconv.Atoi(rawTotalAttempts[len("All submissions (") : len(rawTotalAttempts)-1])
+	if err != nil {
+		return problemData, err
+	}
+	problemData.TotalAttempts = totalAttempts
+
+	rawTotalCompleted := html_basics.CollectText(totalAttemptsNode.NextSibling.NextSibling, 1)
+	totalCompleted, err := strconv.Atoi(rawTotalCompleted[len("All accepted submissions (") : len(rawTotalCompleted)-1])
+	if err != nil {
+		return problemData, err
+	}
+	problemData.TotalCompleted = totalCompleted
+
+	problemData.SourceSizeLimit = "64 KB"
 
 	return problemData, nil
 }
@@ -98,13 +144,43 @@ func parseProblemText(node *html.Node, problemData *ds.ProblemData) error {
 				problemData.InputDescription = html_basics.CollectText(c, 2)
 			case output:
 				problemData.OutputDescription = html_basics.CollectText(c, 2)
-			case sample:
-				// TODO
 			case notes:
 				problemData.Note = html_basics.CollectText(c, 2)
 			}
+		} else if nodeClass == "problem_source" {
+			if html_basics.CollectText(c.FirstChild, 1) != "Problem Author: " {
+				continue
+			}
+			problemData.Author = strings.Split(html_basics.CollectText(c, 1), "\n")[0]
+		}
+
+		if nodeClass == "sample" {
+			err := parseSample(c, problemData)
+			if err != nil {
+				return err
+			}
 		}
 	}
+	return nil
+}
+
+func parseSample(node *html.Node, problemData *ds.ProblemData) error {
+	tbodyNode := node.FirstChild
+
+	for trNode := tbodyNode.FirstChild.NextSibling; trNode != nil; trNode = trNode.NextSibling {
+		example := ds.ProblemExample{}
+		inputNode := trNode.FirstChild.FirstChild
+		outputNode := trNode.FirstChild.NextSibling.FirstChild
+
+		example.Input = html_basics.CollectText(inputNode, 1)
+		example.Output = html_basics.CollectText(outputNode, 1)
+
+		example.Input = example.Input[:len(example.Input)-1]
+		example.Output = example.Output[:len(example.Output)-1]
+
+		problemData.Examples = append(problemData.Examples, example)
+	}
+
 	return nil
 }
 
