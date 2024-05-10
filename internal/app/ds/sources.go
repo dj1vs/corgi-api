@@ -10,14 +10,16 @@ const (
 	Codewars
 	ProjectEuler
 	Timus
+	InformaticsMskRu
 )
 
 var (
 	SourcesMap = map[string]Source{
-		"codeforces":   Codeforces,
-		"codewars":     Codewars,
-		"projecteuler": ProjectEuler,
-		"timus":        Timus,
+		"codeforces":       Codeforces,
+		"codewars":         Codewars,
+		"projecteuler":     ProjectEuler,
+		"timus":            Timus,
+		"informaticsmskru": InformaticsMskRu,
 	}
 )
 

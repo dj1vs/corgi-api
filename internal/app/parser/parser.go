@@ -27,10 +27,11 @@ func ParseCompetition(comp_id ds.CompetitionID) (ds.CompetitionData, error) {
 
 var (
 	problemFunctions = map[ds.Source](func(problemID *ds.ProblemID) (ds.ProblemData, error)){
-		ds.Codeforces:   ParseCodeforcesProblem,
-		ds.Codewars:     ParseCodewarsProblem,
-		ds.ProjectEuler: ParseProjecteulerProblem,
-		ds.Timus:        ParseTimusProblem,
+		ds.Codeforces:       ParseCodeforcesProblem,
+		ds.Codewars:         ParseCodewarsProblem,
+		ds.ProjectEuler:     ParseProjecteulerProblem,
+		ds.Timus:            ParseTimusProblem,
+		ds.InformaticsMskRu: ParseInformaticsMskRuProblem,
 	}
 
 	compFunctions = map[ds.Source](func(compID *ds.CompetitionID) (ds.CompetitionData, error)){

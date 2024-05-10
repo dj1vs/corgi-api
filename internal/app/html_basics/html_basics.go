@@ -1,6 +1,8 @@
 package html_basics
 
 import (
+	"strings"
+
 	"golang.org/x/net/html"
 )
 
@@ -21,10 +23,13 @@ func GetAttribute(n *html.Node, key string) (string, bool) {
 func CollectText(n *html.Node, children int) string {
 	text := ""
 	if n.Type == html.TextNode {
-		text += n.Data
-		if n.Parent != nil && n.Parent.Data == "li" {
-			text += "\n"
+		if checkIfTextIsValid(n.Data) {
+			text += n.Data
+			if n.Parent != nil && n.Parent.Data == "li" {
+				text += "\n"
+			}
 		}
+
 	} else if n.Type == html.ElementNode && n.Data == "br" {
 		text += "\n"
 	}
@@ -71,4 +76,14 @@ func traverse(n *html.Node, attrName string, attrVal string) *html.Node {
 
 func GetElementByAttribute(n *html.Node, attrName string, attrVal string) *html.Node {
 	return traverse(n, attrName, attrVal)
+}
+
+func checkIfTextIsValid(text string) bool {
+	if len(text) != 1 && strings.Count(text, "\n")+strings.Count(text, " ") == len(text) {
+		return false
+	} else if len(text) > 0 {
+		return true
+	}
+
+	return false
 }

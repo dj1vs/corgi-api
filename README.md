@@ -4,7 +4,7 @@ Simple Golang/Buffalo HTTP-server that returns online programming problems from 
 
 **corgi-api** mostly uses its own web scrappers (due to the lack of the official APIs).
 
-Simple example of a parsed problem:
+Example of a parsed problem:
 ```url
 http://127.0.0.1:3000/problem?source=timus&problem_title=2035
 ```
@@ -68,12 +68,12 @@ http://127.0.0.1:3000/problem?source=timus&problem_title=2035
 - Codewars 
 - Project Euler
 - Timus
+- https://informatics.msk.ru/
 
 ## Planned platforms:
 - Code chef
 - Leetcode
 - SPOJ
-- https://informatics.msk.ru//
 - https://acmp.ru/
 - hackerrank
 
