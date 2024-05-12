@@ -5,6 +5,7 @@ import (
 	"corgi-api/internal/app/ds"
 	"corgi-api/internal/app/html_basics"
 	"io"
+	"log"
 	"net/http"
 
 	"golang.org/x/net/html"
@@ -64,6 +65,27 @@ func getHackerrankURL(problemID *ds.ProblemID) (string, error) {
 	return "http://hackerrank.com/challenges/" + problemID.Title + "/problem", nil
 }
 
+// hackerrank draws math equations using svg;
+// this is the only site i've found that uses this kind of retarded behaviour
+// so right now i don't know how to deal with it
 func parseHackerrankStatement(node *html.Node) (string, error) {
-	return html_basics.CollectText(node, 5), nil
+	var statementBeginNode *html.Node
+
+	for c := node.FirstChild.FirstChild.FirstChild; c != nil; c = c.NextSibling {
+		if c.Data == "p" {
+			statementBeginNode = c
+			break
+		}
+	}
+
+	statement := ""
+
+	for c := statementBeginNode; c != nil; c = c.NextSibling {
+		log.Println(c.Data)
+		if c.Type == html.ElementNode {
+			statement += html_basics.CollectText(c, 3)
+		}
+	}
+
+	return statement, nil
 }
