@@ -11,6 +11,8 @@ const (
 	ProjectEuler
 	Timus
 	InformaticsMskRu
+	Leetcode
+	Hackerrank
 )
 
 var (
@@ -20,6 +22,8 @@ var (
 		"projecteuler":     ProjectEuler,
 		"timus":            Timus,
 		"informaticsmskru": InformaticsMskRu,
+		"leetcode":         Leetcode,
+		"hackerrank":       Hackerrank,
 	}
 )
 

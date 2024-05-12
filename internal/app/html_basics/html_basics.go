@@ -78,6 +78,22 @@ func GetElementByAttribute(n *html.Node, attrName string, attrVal string) *html.
 	return traverse(n, attrName, attrVal)
 }
 
+func GetElementByData(n *html.Node, data string) *html.Node {
+	// log.Println(n.Data)
+	if n.Data == data {
+		return n
+	}
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		element := GetElementByData(c, data)
+		if element != nil {
+			return element
+		}
+	}
+
+	return nil
+}
+
 func checkIfTextIsValid(text string) bool {
 	if len(text) != 1 && strings.Count(text, "\n")+strings.Count(text, " ") == len(text) {
 		return false

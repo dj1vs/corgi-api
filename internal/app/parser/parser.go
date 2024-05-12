@@ -32,6 +32,8 @@ var (
 		ds.ProjectEuler:     ParseProjecteulerProblem,
 		ds.Timus:            ParseTimusProblem,
 		ds.InformaticsMskRu: ParseInformaticsMskRuProblem,
+		ds.Leetcode:         ParseLeetcodeProblem,
+		ds.Hackerrank:       ParseHackerrankProblem,
 	}
 
 	compFunctions = map[ds.Source](func(compID *ds.CompetitionID) (ds.CompetitionData, error)){
